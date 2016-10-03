@@ -18,7 +18,7 @@ __pkg_name__ = u"alignak_checks_windows_nsca"
 __checks_type__ = u"windows-nsca"
 
 # Application manifest
-__version__ = u"0.2.1"
+__version__ = u"0.2.2"
 __author__ = u"Frédéric MOHIER"
 __author_email__ = u"frederic.mohier@gmail.com"
 __copyright__ = u"(c) 2015 - %s" % __author__
