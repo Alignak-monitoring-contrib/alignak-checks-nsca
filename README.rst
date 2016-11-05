@@ -4,6 +4,12 @@ Alignak checks package for Windows WMI
 Checks pack for monitoring hosts with Windows Management Instrumentation (WMI)
 
 
+Most recent release
+-------------------
+
+.. image:: https://badge.fury.io/py/alignak-checks-windows-nsca.svg
+    :target: https://badge.fury.io/py/alignak-checks-windows-nsca
+
 Installation
 ------------
 
@@ -11,15 +17,15 @@ From PyPI
 ~~~~~~~~~
 To install the package from PyPI:
 ::
-   pip install alignak-checks-wmi
+   pip install alignak-checks-windows-nsca
 
 
 From source files
 ~~~~~~~~~~~~~~~~~
 To install the package from the source files:
 ::
-   git clone https://github.com/Alignak-monitoring-contrib/alignak-checks-wmi
-   cd alignak-checks-wmi
+   git clone https://github.com/Alignak-monitoring-contrib/alignak-checks-windows-nsca
+   cd alignak-checks-windows-nsca
    sudo python setup.py install
 
 
