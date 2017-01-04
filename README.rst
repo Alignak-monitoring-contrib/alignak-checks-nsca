@@ -1,14 +1,16 @@
-Alignak checks package for Windows WMI
-======================================
+Alignak checks package for Windows passively checked hosts/services
+===================================================================
 
-Checks pack for monitoring hosts with Windows Management Instrumentation (WMI)
+*Checks pack for monitoring Windows hosts with NSCA passive checks*
 
-
-Most recent release
--------------------
 
 .. image:: https://badge.fury.io/py/alignak-checks-windows-nsca.svg
     :target: https://badge.fury.io/py/alignak-checks-windows-nsca
+    :alt: Most recent PyPi version
+
+.. image:: https://img.shields.io/badge/License-AGPL%20v3-blue.svg
+    :target: http://www.gnu.org/licenses/agpl-3.0
+    :alt: License AGPL v3
 
 Installation
 ------------
@@ -17,83 +19,95 @@ From PyPI
 ~~~~~~~~~
 To install the package from PyPI:
 ::
-   pip install alignak-checks-windows-nsca
+
+   sudo pip install alignak-checks-windows-nsca
 
 
 From source files
 ~~~~~~~~~~~~~~~~~
 To install the package from the source files:
 ::
+
    git clone https://github.com/Alignak-monitoring-contrib/alignak-checks-windows-nsca
    cd alignak-checks-windows-nsca
-   sudo python setup.py install
+   sudo pip install .
 
+.. note: using `sudo python setup.py install` will not ocrrectly manage the package configuration files! The recommended way is really to use `pip`;)
 
 Documentation
 -------------
 
 Configuration
 ~~~~~~~~~~~~~
-Edit the */usr/local/etc/alignak/arbiter/packs/wmi/resources.cfg* file and configure the domain name, user name and password allowed to access remotely to the monitored hosts WMI.
-::
-   #-- Active Directory for WMI
-   # Replace MYDOMAIN with your domain name or . for local user account
-   $DOMAIN$=MYDOMAIN
-   # Replace MYUSER with the WMI authorized user (domain or local user account)
-   $DOMAINUSERSHORT$=MYUSER
-   $DOMAINUSER$=$DOMAIN$\\$DOMAINUSERSHORT$
-   # Replace MYPASSWORD with the WMI authorized user password
-   $DOMAINPASSWORD$=MYPASSWORD
+This checks pack do not need any specific configuration.
+
 
 Prepare Windows host
 ~~~~~~~~~~~~~~~~~~~~
-Some operations are necessary on the Windows monitored hosts if WMI remote access is not yet activated.
+Some operations are necessary on the Windows monitored hosts if NSClient++ is not yet installed and running.
 
-Create a user account:
+Install and configure NSClient++ for scheduled NSCA checks. As an example a registry configuration:
 
-- username/password (example): alignak/alignak
-- member of following groups: Administrators, Remote DCOM users
-- Deactivate interactive login permissions (more secure)
-
-Check that WMI and RPC services are started
-
-The Windows Firewall must allow inbound trafic for:
-   - Windows Firewall Remote Management (RPC)
-   - Windows Management Instrumentation (DCOM-In)
-   - Windows Management Instrumentation (WMI-In)
-
-This page contains more information about remote WMI configuration: https://kb.op5.com/display/HOWTOs/Agentless+Monitoring+of+Windows+using+WMI
-
-Test remote WMI access with the plugins files:
 ::
-   # Basic wmic command ...
-   $ /usr/local/var/libexec/alignak/wmic -U .\\alignak%alignak //192.168.0.20 'Select Caption From Win32_OperatingSystem'
 
-   # Alignak plugin command ...
-   $ /usr/local/var/libexe/alignak/check_wmi_plus.pl -H 192.168.0.20 -u ".\\alignak" -p "alignak" -m checkdrivesize -a '.'  -w 90 -c 95 -o 0 -3 1  --inidir=/usr/local/var/libexec/alignak
+    Windows Registry Editor Version 5.00
+
+    [HKEY_LOCAL_MACHINE\SOFTWARE\NSClient++\settings\scheduler]
+    "threads"=dword:00000005
+
+    [HKEY_LOCAL_MACHINE\SOFTWARE\NSClient++\settings\scheduler\schedules]
+
+    [HKEY_LOCAL_MACHINE\SOFTWARE\NSClient++\settings\scheduler\schedules\check_alive]
+    "alias"="host_check"
+    "interval"="300s"
+    "command"="check_ok"
+
+    [HKEY_LOCAL_MACHINE\SOFTWARE\NSClient++\settings\scheduler\schedules\check_cpu]
+    "command"="alias_cpu"
+    "alias"="nsca_cpu"
+    "interval"="15m"
+
+    [HKEY_LOCAL_MACHINE\SOFTWARE\NSClient++\settings\scheduler\schedules\check_disk]
+    "command"="alias_disk"
+    "interval"="10m"
+    "alias"="nsca_disk"
+
+    [HKEY_LOCAL_MACHINE\SOFTWARE\NSClient++\settings\scheduler\schedules\check_mem]
+    "command"="alias_mem"
+    "interval"="5m"
+    "alias"="nsca_memory"
+
+    [HKEY_LOCAL_MACHINE\SOFTWARE\NSClient++\settings\scheduler\schedules\check_services]
+    "command"="alias_service"
+    "interval"="6h"
+    "alias"="nsca_service"
+
+    [HKEY_LOCAL_MACHINE\SOFTWARE\NSClient++\settings\scheduler\schedules\check_uptime]
+    "command"="check_uptime \"warning=uptime<-5m\" \"critical=uptime<-3m\""
+    "interval"="60s"
+    "alias"="nsca_uptime"
+
+    [HKEY_LOCAL_MACHINE\SOFTWARE\NSClient++\settings\scheduler\schedules\default]
+    "interval"="3600s"
+
 
 
 Alignak configuration
 ~~~~~~~~~~~~~~~~~~~~~
 
-You simply have to tag the concerned hosts with the template `windows-nsca-host`.
+You simply have to tag the concerned hosts with the template `windows-passive-host`.
 ::
 
     define host{
-        use                     windows-nsca-host
-        host_name               windows_nsca_host
+        use                     windows-passive-host
+        host_name               my_windows_passive_host
         address                 0.0.0.0
     }
+
+and this host will automatically inherit from the template parameters and services.
 
 
 Bugs, issues and contributing
 -----------------------------
 
-Contributions to this project are welcome and encouraged ... issues in the project repository are the common way to raise an information.
-
-License
--------
-
-Alignak Pack Checks WMI is available under the `GPL version 3 license`_.
-
-.. _GPL version 3 license: http://opensource.org/licenses/GPL-3.0
+Contributions to this project are welcome and encouraged ... `issues in the project repository <https://github.com/alignak-monitoring-contrib/alignak-checks-windows-nsca/issues>`_ are the common way to raise an information.
