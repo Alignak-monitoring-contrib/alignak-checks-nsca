@@ -103,24 +103,28 @@ NSClient++ registry configuration example:
     threads = 5
 
     [/settings/scheduler/schedules/default]
-    channel=NSCA
-    interval=300s
-    report=all
+    channel = NSCA
+    interval = 300s
+    report = all
 
     [/settings/scheduler/schedules]
+
     ; Services to be checked
-    nsca_cpu=alias_cpu
-    nsca_memory=alias_mem
-    nsca_disk=alias_disk
-    nsca_uptime=alias_up
-    nsca_services=alias_service_ex
+    nsca_cpu = alias_cpu
+    nsca_memory = alias_mem
+    nsca_disk = alias_disk
+    nsca_uptime = alias_up
+    nsca_services = alias_service_ex
 
     [/settings/NSCA/client]
     channel = NSCA
+
     ; The same host name configured in Alignak
     hostname = win2k8
 
+
     [/settings/NSCA/client/targets/default]
+
     ; Alignak server Ip address
     address = 192.168.15.1
     port = 5667
@@ -132,10 +136,34 @@ NSClient++ registry configuration example:
     use ssl = false
     verify mode = none
 
+
     [/settings/log]
     date format = %Y-%m-%d %H:%M:%S
     file name = ${exe-path}/nsclient.log
     level = info
+
+
+    ; TODO
+    [/settings/scheduler/schedules/check_alive]
+
+    ; Undocumented key
+    alias = host_check
+
+    ; SCHEDULE COMMAND - Command to execute
+    command = check_ok
+
+
+    ; TODO
+    [/settings/external scripts/wrappings]
+
+    ; BATCH FILE WRAPPING -
+    bat = scripts\\%SCRIPT% %ARGS%
+
+    ; POWERSHELL WRAPPING -
+    ps1 = cmd /c echo If (-Not (Test-Path "scripts\%SCRIPT%") ) { Write-Host "UNKNOWN: Script `"%SCRIPT%`" not found."; exit(3) }; scripts\%SCRIPT% $ARGS$; exit($lastexitcode) | powershell.exe /noprofile -command -
+
+    ; VISUAL BASIC WRAPPING -
+    vbs = cscript.exe //T:30 //NoLogo scripts\\lib\\wrapper.vbs %SCRIPT% %ARGS%
 
 
 NSClient++ registry configuration example:
