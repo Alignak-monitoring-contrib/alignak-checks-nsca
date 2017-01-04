@@ -56,7 +56,7 @@ Install and configure NSClient++ for scheduled NSCA checks.
 
 The first example below is an NSClient configuration file and it schedules the NSCa checks with the default NSClient pre-installed commands (see alias). The second example is an NSClient registry configuration that defines its own commands in the NSCA scheduled checks. Anyway, for more information, we invite you to consult the `NSClient ++ Web site <https://www.nsclient.org/>`_.
 
-NSClient++ registry configuration example:
+NSClient++ Ini file configuration example:
 
 ::
 
