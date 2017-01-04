@@ -32,7 +32,7 @@ To install the package from the source files:
    cd alignak-checks-windows-nsca
    sudo pip install .
 
-.. note: using `sudo python setup.py install` will not ocrrectly manage the package configuration files! The recommended way is really to use `pip`;)
+**Note:** *using `sudo python setup.py install` will not ocrrectly manage the package configuration files! The recommended way is really to use `pip`;)*
 
 Documentation
 -------------
