@@ -4,7 +4,7 @@ Alignak checks package for Windows passively checked hosts/services
 *Checks pack for monitoring Windows hosts with NSCA passive checks*
 
 
-.. image:: https://badge.fury.io/py/alignak-checks-windows-nsca.svg
+.. image:: https://badge.fury.io/py/alignak_checks_windows_nsca.svg
     :target: https://badge.fury.io/py/alignak-checks-windows-nsca
     :alt: Most recent PyPi version
 
