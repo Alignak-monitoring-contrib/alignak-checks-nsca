@@ -19,6 +19,8 @@ Alignak checks package for Windows passively checked hosts/services
 Installation
 ------------
 
+The installation of this checks pack will copy some configuration files in the Alignak default configuration directory (eg. */usr/local/etc/alignak*). The copied files are located in the default sub-directory used for the packs (eg. *arbiter/packs*).
+
 From PyPI
 ~~~~~~~~~
 To install the package from PyPI:
@@ -36,7 +38,7 @@ To install the package from the source files:
    cd alignak-checks-windows-nsca
    sudo pip install .
 
-**Note:** *using `sudo python setup.py install` will not ocrrectly manage the package configuration files! The recommended way is really to use `pip`;)*
+**Note:** *using `sudo python setup.py install` will not correctly manage the package configuration files! The recommended way is really to use `pip`;)*
 
 Documentation
 -------------
