@@ -18,7 +18,7 @@ with open(os.path.join('version.py')) as fh:
     exec(fh.read(), manifest)
 # The `manifest` dictionary now contains the package metadata
 
-# Gt the package name from the manifest
+# Get the package name from the manifest
 package_name = manifest["__pkg_name__"]
 
 # Build list of all installable data files
