@@ -21,15 +21,13 @@ except:
     sys.exit("Error: missing python-distutils library")
 
 # Specific command line parameters
+# Default is to use JSON files to declare templates in the backend
 config_files= False
+json_files= True
 if "--config-files" in sys.argv:
     config_files = True
+    json_files = False
     sys.argv.remove("--config-files")
-
-json_files= False
-if "--json-files" in sys.argv:
-    json_files = True
-    sys.argv.remove("--json-files")
 
 # Overloading setup.py install_data
 class install_data(_install_data):
@@ -44,6 +42,10 @@ class install_data(_install_data):
         # After data files installation ...
         # ... try to find if an installer file exists
         # ... and then run this installer.
+        self.announce("\n====================================================", distutils.log.INFO)
+        self.announce("self: %s" % (self.__dict__), distutils.log.INFO)
+        self.announce("====================================================\n", distutils.log.INFO)
+
         self.announce("\n====================================================", distutils.log.INFO)
         self.announce("Files: %s / %s" % (config_files, json_files), distutils.log.INFO)
         self.announce("====================================================\n", distutils.log.INFO)
