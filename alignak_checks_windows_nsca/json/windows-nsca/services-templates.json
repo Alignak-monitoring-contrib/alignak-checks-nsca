@@ -62,7 +62,7 @@
         "freshness_threshold": 3600,
         "host": "_dummy",
         "imported_from": "alignak-checks-windows-nsca",
-        "initial_state": "u",
+        "initial_state": "x",
         "name": "windows-passive-service",
         "notes": "",
         "notes_url": "",
