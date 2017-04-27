@@ -20,15 +20,6 @@ try:
 except:
     sys.exit("Error: missing python-distutils library")
 
-# Specific command line parameters
-# Default is to use JSON files to declare templates in the backend
-config_files= False
-json_files= True
-if "--config-files" in sys.argv:
-    config_files = True
-    json_files = False
-    sys.argv.remove("--config-files")
-
 # Overloading setup.py install_data
 class install_data(_install_data):
     """Overload the default data installation"""
@@ -42,13 +33,6 @@ class install_data(_install_data):
         # After data files installation ...
         # ... try to find if an installer file exists
         # ... and then run this installer.
-        self.announce("\n====================================================", distutils.log.INFO)
-        self.announce("self: %s" % (self.__dict__), distutils.log.INFO)
-        self.announce("====================================================\n", distutils.log.INFO)
-
-        self.announce("\n====================================================", distutils.log.INFO)
-        self.announce("Files: %s / %s" % (config_files, json_files), distutils.log.INFO)
-        self.announce("====================================================\n", distutils.log.INFO)
         self.announce("\n====================================================", distutils.log.INFO)
         self.announce("Searching for installation script...", distutils.log.INFO)
         for (target, origin) in self.data_files:
@@ -110,7 +94,7 @@ for subdir, dirs, files in os.walk(package_name):
                                   os.path.join(package_name, 'libexec')),
                                      "", subdir))
     # Configuration directory
-    elif config_files and 'etc' in subdir:
+    elif 'etc' in subdir:
         target = os.path.join('etc/alignak',
                               re.sub(r"^(%s\/|%s$)" % (
                                   os.path.join(package_name, 'etc'),
@@ -118,7 +102,7 @@ for subdir, dirs, files in os.walk(package_name):
                                      "", subdir))
 
     # Backend json files directory
-    elif json_files and 'json' in subdir:
+    elif 'json' in subdir:
         target = os.path.join('etc/alignak/backend-json',
                               re.sub(r"^(%s\/|%s$)" % (
                                   os.path.join(package_name, 'json'),
